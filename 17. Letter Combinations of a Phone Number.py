@@ -1,22 +1,15 @@
-class Solution(object):
-    def letterCombinations(self, digits):
-        """
-        :type digits: str
-        :rtype: List[str]
-        """
-        mapping = ['', '', 'abc', 'def', 'ghi', 'jkl',
-                  'mno', 'pqrs', 'tuv', 'wxyz']
+class Solution:
+    def letterCombinations(self, digits: str) -> List[str]:
         
-        def dfs(path, res, i):
-            if i == len(digits):
+        map = ['', '', 'abc', 'def', 'ghi', 'jkl', 'mno', 'pqrs', 'tuv', 'wxyz']
+        
+        def dfs(index:int, path:str, res:List[str]):
+            if index == len(digits):
                 res.append(path)
                 return
-            for digit in mapping[int(digits[i])]:
-                dfs(path + digit, res, i + 1)
-        
+            for letter in map[int(digits[index])]:
+                dfs(index + 1, path + letter, res)
         res = []
-        if not digits:
-                return []
-        else:
-            dfs('', res, 0)
+        if digits:
+            dfs(0, '', res)
             return res
