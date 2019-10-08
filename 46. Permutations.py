@@ -1,17 +1,18 @@
-class Solution(object):
-    def permute(self, nums):
-        """
-        :type nums: List[int]
-        :rtype: List[List[int]]
-        """
+class Solution:
+    def permute(self, nums: List[int]) -> List[List[int]]:
+        
+        def dfs(res: List[List[int]], cur: List[int]):
+            if len(cur) == len(nums): 
+                res.append(cur[:])
+                return
+            for i in range(len(nums)):
+                if nums[i] in cur:
+                    continue
+                cur.append(nums[i])
+                dfs(res, cur)
+                cur.remove(nums[i])
+                
         res = []
-        self.dfs(nums, [], res)
+        dfs(res, [])
         return res
-    
-    def dfs(self, nums, path, res):
-        if not nums:
-            res.append(path)
-            return
-        for i in range(len(nums)):
-            self.dfs(nums[:i] + nums[i+1:], path + [nums[i]], res)
       
