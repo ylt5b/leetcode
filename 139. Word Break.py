@@ -26,11 +26,24 @@ class Solution(object):
                         return True
                     stack.append(start + len(word))
         return False
-    
+  # solution 2. another implementatin of BFS:
+    class Solution:
+    def wordBreak(self, s: str, wordDict: List[str]) -> bool:
+        stack = [0]
+        visit = [0] * (len(s) + 1)
+        while stack:
+            index = stack.pop()
+            visit[index] = 1
+            for j in range(index+1, len(s) + 1):
+                if s[index:j] in wordDict and visit[j] == 0:
+                    if j == len(s):
+                        return True
+                    stack.append(j)
+        return False
   # Solution 3: DFS
 class Solution(object):
     def wordBreak(self, s, wordDict):
-            def dfs(index, visit):
+        def dfs(index, visit):
             if index == len(s):
                 return True
             if visit[index] == True:
