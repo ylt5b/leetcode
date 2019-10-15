@@ -29,4 +29,28 @@ class Solution:
             root = node.right
         return res
            
-  
+ # solution 3: morris
+  class Solution:
+    def inorderTraversal(self, root: TreeNode) -> List[int]:
+        
+        node, res = root, []
+        while  node:
+            if not node.left:
+                res.append(node.val)
+                node = node.right
+            else:
+                precessor = node.left
+                while precessor.right and precessor.right != node:
+                    precessor = precessor.right
+                
+                if not precessor.right:
+                    precessor.right = node
+                    node = node.left
+                else:
+                    precessor.right = None
+                    res.append(node.val)
+                    node = node.right
+              
+        return res
+                         
+                 
