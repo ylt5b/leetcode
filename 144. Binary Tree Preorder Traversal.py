@@ -29,3 +29,24 @@ class Solution:
       res.append(root.val)
       self.dfs(root.left, res)
       self.dfs(root.right, res)
+        
+# solution 3. morris
+class Solution:
+    def preorderTraversal(self, root: TreeNode) -> List[int]:
+        node, output = root, []
+        while node:
+            if not node.left:
+                output.append(node.val)
+                node = node.right
+            else:
+                precessor = node.left
+                while precessor.right and precessor.right is not node:
+                    precessor = precessor.right
+                if not precessor.right:
+                    output.append(node.val)
+                    precessor.right = node
+                    node = node.left
+                else:
+                    precessor.right=None
+                    node = node.right
+        return output
