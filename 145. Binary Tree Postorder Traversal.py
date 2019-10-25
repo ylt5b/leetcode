@@ -14,6 +14,22 @@ class Solution:
             if root.right:
                 stack.append(root.right)
         return res[::-1]
+ # solution: anohter iterative
+    def postorderTraversal(self, root: TreeNode) -> List[int]:
+        if not root: return []
+        h = root
+        stack = [h]
+        res = []
+        while stack:
+            c = stack[-1]
+            if  c.left and h != c.left and h != c.right:
+                stack.append(c.left)
+            elif c.right and h != c.right:
+                stack.append(c.right)
+            else:
+                res.append(stack.pop().val)
+                h = c
+        return res
         
 # solution 2: dfs
  class Solution:
