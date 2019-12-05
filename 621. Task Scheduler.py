@@ -1,6 +1,6 @@
 class Solution:
     def leastInterval(self, tasks: List[str], n: int) -> int:
-        
+        # 1. heap, O(nlogn)
         count = collections.Counter(tasks)
         heap = []
         n += 1
