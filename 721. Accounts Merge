@@ -1,0 +1,44 @@
+class Solution:
+    def accountsMerge(self, accounts: List[List[str]]) -> List[List[str]]:
+        # union find
+        def find(x):
+            if parent[x] != x:
+                parent[x] = find(parent[x])
+            return parent[x]
+
+        def union( x, y):
+            root_x = find(x)
+            root_y = find(y)
+            if root_x == root_y:
+                return False
+            if rank[root_x] > rank[root_y]:
+                rank[root_x] += rank[root_y]
+                parent[root_y] = root_x
+            else:
+                rank[root_y] += rank[root_x]
+                parent[root_x] = root_y
+
+        idx = 0
+        email_to_id = {}
+        id_to_name = {}
+        rank = []
+        parent = []
+        for account in accounts:
+            for email in account[1:]:
+                if email not in email_to_id:
+                    email_to_id[email] = idx
+                    id_to_name[idx] = account[0]
+                    rank.append(1)
+                    parent.append(idx)
+                    idx += 1
+                union(email_to_id[account[1]], email_to_id[email])
+                
+        res = collections.defaultdict(list)
+        for email, id in email_to_id.items():
+            master = find(id)
+            res[master].append(email)
+        print (res)
+        ans = []
+        for key, value in res.items():
+            ans.append([id_to_name[key]] + sorted(value))
+        return ans
