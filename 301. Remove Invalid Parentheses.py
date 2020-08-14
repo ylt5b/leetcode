@@ -4,39 +4,42 @@ class Solution(object):
         :type s: str
         :rtype: List[str]
         """
-        left = 0
-        right = 0
-        for char in s:
-            if char == '(':
+        class Solution:
+    def removeInvalidParentheses(self, s: str) -> List[str]:
+        # minimal number to remove
+       
+        
+        left, right = 0, 0
+        for ch in s:
+            if ch == '(':
                 left += 1
-            elif char == ')':
-                if left > 0:
+            elif ch == ')':
+                if left > 0 :
                     left -= 1
                 else:
                     right += 1
-        print (left, right)       
-        def dfs(index, curr, left, right, res, leftextra):
+        
+        def dfs(index, path, left, right, extra):
+            if path in res: return 
             if index == len(s):
-                if left == 0 and  right == 0: 
-                    possible = ''.join(curr)
-                    if possible not in res:
-                        res.append(possible)
-                return
-            
+                if left == 0 and right == 0:
+                    res.append(path)
+                return 
+            # Discard case
             if s[index] == '(' and left > 0:
-                dfs(index + 1, curr, left -1, right, res, leftextra)
-            elif s[index] == ')' and right > 0:
-                dfs(index + 1, curr, left, right -1, res, leftextra)
+                dfs(index + 1, path, left - 1, right, extra)
+            if s[index] == ')' and right > 0:
+                dfs(index + 1, path, left, right-1, extra)
                 
-            curr.append(s[index])
+            # Keep case
             if s[index] not in '()':
-                dfs(index + 1, curr, left, right, res, leftextra)      
-            elif s[index] == '(' :
-                dfs(index + 1, curr, left, right, res, leftextra+1)
-            elif s[index] == ')' and leftextra > 0:
-                dfs(index + 1, curr, left, right, res, leftextra -1)
-            curr.pop()
-            
+                dfs(index + 1, path + s[index], left, right, extra)
+            elif s[index] == '(':
+                dfs(index + 1, path + s[index], left, right, extra+1)
+            elif s[index] == ')' and extra > 0 :
+                dfs(index + 1, path + s[index], left, right, extra-1)
+                
         res = []
-        dfs(0, [] , left, right, res, 0)
-        return list(res)
+        dfs(0, '', left, right, 0)
+        return res
+            
